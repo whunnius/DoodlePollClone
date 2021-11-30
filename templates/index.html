@@ -9,16 +9,13 @@
     <h1 style="text-align: center">Create a Poll</h1>
     {% if tasks|length < 1 %}
     <h4 style="text-align: center">No Polls made. Create one below!</h4>
-        {% if task.content|length < 1 %}
-        <h4 style="text-align: center">Invalid Poll Title. Please enter a Poll Title name</h4>
-        {% endif %}
     {% else %}
 
     <table>
         
         <tr>
             <th>Poll Title</th>
-            <th>Added</th>
+            <th>Date Added</th>
             <th>Actions</th>
         </tr>
         {% for task in tasks%}
@@ -29,7 +26,12 @@
                     <a href="/delete/{{task.id}}">Delete</a>
                     <br>
                     <a href ="/update/{{task.id}}">Update</a>
-
+                    <br>
+                    {% if task.published == False %}
+                    <a href="/publish/{{task.id}}" class="button">Publish</a>
+                    {% else %}
+                    <a href="/publish/{{task.id}}" class="button1">Unpublish</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
