@@ -12,7 +12,7 @@ class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.String(200), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.now)
-
+    
     def __repr__(self):
         return '<Task %r>' % self.id
 
@@ -32,7 +32,7 @@ def index():
             db.session.commit()
             return redirect('/')
         except:
-            return 'There was an issue adding your task'
+            return 'There was an issue adding your Schedule'
 
     else:
         tasks = Todo.query.order_by(Todo.date_created).all()
