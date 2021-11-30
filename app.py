@@ -13,8 +13,9 @@ class Todo(db.Model):
     content = db.Column(db.String(200), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.now)
     published = db.Column(db.Boolean,default=False)
-
-    
+    start = db.Column(db.DateTime, default = None)
+    finish = db.Column(db.DateTime, default = None)
+     
     
     def __repr__(self):
         return '<Task %r>' % self.id
@@ -80,7 +81,7 @@ def publish(id):
         db.session.commit()
         return redirect('/')
     except:
-        return 'Issue publishing Schedule'
+        return 'Issue publishing poll'
 
         
 

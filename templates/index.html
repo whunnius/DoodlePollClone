@@ -39,7 +39,15 @@
     {% endif %}
     <div class="form">
         <form action="/" method="POST">
+            <label for="Poll Title">Poll Title:</label>
             <input type="text" name="content" id="content">
+            <br>
+            <label for="start">Start date:</label>
+            <input type="date" id="start" name="start-date" value=task.date_created.date() min="2021-11-30" max="2051-11-30">
+            <br>
+            <label for="end">End date:</label>
+            <input type="date" id="end" name="end-date" value=task.date_created.date() min="2021-11-30" max="2051-11-30">
+            <br>
             <input type="submit" value="Create Poll">
         </form>
     </div>
