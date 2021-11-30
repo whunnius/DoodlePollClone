@@ -34,3 +34,21 @@ td {
 #content {
     width: 70%;
 }
+
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: rgb(0, 255, 21);
+}
+
+a.button1 {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: rgb(255, 0, 0);
+}

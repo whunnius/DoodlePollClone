@@ -6,16 +6,16 @@
 
 {% block body %}
 <div class="content">
-    <h1 style="text-align: center">Make a Schedule</h1>
+    <h1 style="text-align: center">Create a Poll</h1>
     {% if tasks|length < 1 %}
-    <h4 style="text-align: center">No schedules made. Create one below!</h4>
+    <h4 style="text-align: center">No Polls made. Create one below!</h4>
     {% else %}
 
     <table>
         
         <tr>
             <th>Poll Title</th>
-            <th>Added</th>
+            <th>Date Added</th>
             <th>Actions</th>
         </tr>
         {% for task in tasks%}
@@ -26,7 +26,12 @@
                     <a href="/delete/{{task.id}}">Delete</a>
                     <br>
                     <a href ="/update/{{task.id}}">Update</a>
-
+                    <br>
+                    {% if task.published == False %}
+                    <a href="/publish/{{task.id}}" class="button">Publish</a>
+                    {% else %}
+                    <a href="/publish/{{task.id}}" class="button1">Unpublish</a>
+                    {% endif %}
                 </td>
             </tr>
         {% endfor %}
@@ -34,7 +39,15 @@
     {% endif %}
     <div class="form">
         <form action="/" method="POST">
+            <label for="Poll Title">Poll Title:</label>
             <input type="text" name="content" id="content">
+            <br>
+            <label for="start">Start date:</label>
+            <input type="date" id="start" name="start-date" value=task.date_created.date() min="2021-11-30" max="2051-11-30">
+            <br>
+            <label for="end">End date:</label>
+            <input type="date" id="end" name="end-date" value=task.date_created.date() min="2021-11-30" max="2051-11-30">
+            <br>
             <input type="submit" value="Create Poll">
         </form>
     </div>
