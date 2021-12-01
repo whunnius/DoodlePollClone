@@ -1,7 +1,7 @@
 from logging import exception
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, timezone
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
@@ -32,8 +32,10 @@ class Todo(db.Model):
 def index():
     if request.method == 'POST':
         task_content = request.form['content']
-        if(task_content != ""):
-            new_task = Todo(content=task_content)
+        task_timezone = request.form['timezone']
+        if(task_content != "" and task_timezone!= ""):
+            new_task = Todo(content=task_content,timezone=task_timezone)
+            
             try:
                 print("here")
                 db.session.add(new_task)
