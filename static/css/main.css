@@ -1,12 +1,12 @@
 body, html {
     margin: 0;
     font-family: sans-serif;
-    background-color: rgb(255, 218, 226);
+    background-color: rgb(255, 228, 228);
 }
 
 .content {
     margin: 0 auto;
-    width: 1000px;
+    width: 1400px;
 }
 
 table, td, th {

@@ -18,6 +18,8 @@
         <tr>
             <th>Poll Title</th>
             <th>Date Added</th>
+            <th>Description</th>
+            <th>Location</th>
             <th>Time Zone</th>
             <th>Actions</th>
         </tr>
@@ -25,6 +27,8 @@
             <tr>
                 <td>{{ task.content }}</td>
                 <td>{{ task.date_created.date() }}</td>
+                <td>{{ task.description }}</td>
+                <td>{{ task.location }}</td>
                 <td>{{ task.timezone }}</td>
                 <td>
                     <a href="/delete/{{task.id}}">Delete</a>
@@ -45,12 +49,16 @@
     {% endif %}
     <div class="form">
         <form action="/" method="POST">
-            <label for="Poll Title">Poll Title:</label>
+            <label style="text-align: center" for="Poll Title">Poll Title:</label>
             <input type="text" name="content" id="content">
             <br>
-            <label for="Location">Location:</label>
-            <input type="text" name="location" id="location ">
+            <label style="text-align: center" for="Description">Description:</label>
+            <input type="text" name="description" id="description">
             <br>
+            <label style="text-align: center" for="Location">Location:</label>
+            <input type="text" name="location" id="location">
+            <br>
+            
             <label for="timezone">Time Zone:</label>
             <select name="timezone">
                 <option></option>

@@ -18,9 +18,8 @@ class Todo(db.Model):
     date_created = db.Column(db.DateTime, default=datetime.now)
     published = db.Column(db.Boolean,default=False)
     timezone = db.Column(db.String(200), nullable=False)
-    # start = db.Column(db.DateTime, default = None)
-    # finish = db.Column(db.DateTime, default = None)
-    # location = db.Column(db.String(200), nullable=False)
+    location = db.Column(db.String(200), default="")
+    description = db.Column(db.String(1000), default="")
     
     def __repr__(self):
         return '<Task %r>' % self.id
@@ -57,8 +56,10 @@ def index():
     if request.method == 'POST':
         task_content = request.form['content']
         task_timezone = request.form['timezone']
-        if(task_content != "" and task_timezone!= ""):
-            new_task = Todo(content=task_content,timezone=task_timezone)
+        task_location = request.form['location']
+        task_description = request.form['description']
+        if(task_content != "" and task_timezone!= "" ):
+            new_task = Todo(content=task_content,timezone=task_timezone,location=task_location,description=task_description)
             
             try:
                 print("here")
