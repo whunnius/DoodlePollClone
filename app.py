@@ -6,6 +6,10 @@ from datetime import datetime, timezone
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
+events = [{
+    'todo' : 'Hi',
+    'date' : '2021-11-23',
+}]
 
 
 class Todo(db.Model):
@@ -24,6 +28,26 @@ class Todo(db.Model):
 
 #task_content is the entered in poll name by the admin i.e "wewe"
 #tasks is a list of tasks
+# @app.route('/')
+# def login():
+#     return render_template('login.html')
+
+
+# @app.route('/login',methods=["POST"])
+# def loginAuth():
+#     username = request.form['user_Id']
+#     userPassword = request.form['password']
+#     user = Todo.query.filter_by(user_Id=username, password=userPassword).first()
+
+#     if user:
+#         job_type = user.get_job()
+#         if job_type == 'physician':
+#             return redirect(url_for('physician', user_Id=user.user_Id))
+#         else:
+#             return job_type
+#     else:
+#         flash("Incorrect username or password", 'error')
+#         return redirect(url_for('login'))
 
 
 
@@ -51,7 +75,7 @@ def index():
     else:
         tasks = Todo.query.order_by(Todo.date_created).all()
     
-        return render_template('index.html',tasks=tasks)
+        return render_template('index.html',tasks=tasks, events=events)
 
 
 @app.route('/delete/<int:id>')
@@ -91,9 +115,6 @@ def publish(id):
         return redirect('/')
     except:
         return 'Issue publishing poll'
-
-        
-
 
 
 
