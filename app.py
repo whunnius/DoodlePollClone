@@ -1,5 +1,4 @@
 from logging import exception
-import re
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
@@ -7,6 +6,10 @@ from datetime import datetime
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 db = SQLAlchemy(app)
+events = [{
+    'todo' : 'Hi',
+    'date' : '2021-11-23',
+}]
 
 class Todo(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -42,7 +45,7 @@ def index():
     else:
         tasks = Todo.query.order_by(Todo.date_created).all()
     
-        return render_template('index.html',tasks=tasks)
+        return render_template('index.html',tasks=tasks, events=events)
 
 
 @app.route('/delete/<int:id>')

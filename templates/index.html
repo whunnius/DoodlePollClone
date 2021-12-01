@@ -2,6 +2,8 @@
 
 {% block head %}
 <title>Create Poll</title>
+<link rel = "stylesheet" href= "https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
+<script src = "https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -47,9 +49,41 @@
             <br>
             <label for="end">End date:</label>
             <input type="date" id="end" name="end-date" value=task.date_created.date() min="2021-11-30" max="2051-11-30">
-            <br>
-            <input type="submit" value="Create Poll">
         </form>
     </div>
+    <div id="calendar"></div>
+    <script>
+        let calendarEl = document.getElementById('calendar');
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'timeGridWeek',
+            selectable: true,
+            selectHelper: true,
+            editable: true,
+            eventLimit: true,
+            headerToolbar:{
+                left: 'prev,next today',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events:[
+                {% for event in events %}
+                {
+                    title: '{{event.todo}}',
+                    start: '{{event.date}}',
+                },
+                {% endfor %}
+            ],
+            select: function(start, end) {
+                $.getScript('/events/new', function() {
+                $('#event_date_range').val(moment(start).format("MM/DD/YYYY HH:mm") + ' - ' + moment(end).format("MM/DD/YYYY HH:mm"))
+                date_range_picker();
+                $('.start_hidden').val(moment(start).format('YYYY-MM-DD HH:mm'));
+                $('.end_hidden').val(moment(end).format('YYYY-MM-DD HH:mm'));
+                });
+                calendar.fullCalendar('unselect');
+            }
+        });
+        calendar.render();
+    </script>
+    <input type="submit" value="Create Poll">
 </div>
 {% endblock %}
