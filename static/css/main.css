@@ -67,8 +67,9 @@ a.button2 {
   }
 
 .tab { 
-      margin-left: 50px;
-      margin-bottom: 50px ; 
+    margin-top: 5px;
+    margin-left: 50px;
+    margin-bottom: 5px ; 
 }
 
 .voterTextboxName{

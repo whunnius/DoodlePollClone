@@ -26,14 +26,20 @@
 
     <div class="tab">
         <tr>
-            <td>Poll Title: </td>
-            {{ form.poll_title}}
+            <td><b>Poll Title: </b> {{ poll_title }}</td>
+            <td><b>Location: </b>: {{ location }}</td>
+        </tr>
+    </div>
 
-            <td>Location:</td>
-            {{ form.location }}
+    <div class="tab">
+        <tr>
+            <td><b>Timezone: </b> {{ timezone }}</td>
+            <td><b>Deadline: </b> {{ "deadline" }}</td>
         </tr>
     </div>
     </center>
+
+
     <div class="formfield">
         <tr>
             <label for="Notes">Notes: </label>

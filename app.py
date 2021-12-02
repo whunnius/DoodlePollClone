@@ -72,15 +72,16 @@ class LoginForm(FlaskForm):
 class VoterForm(FlaskForm):
     name = StringField(validators=[InputRequired(), Length(min=4,max=20)], render_kw={"placeholder": "Name"})
     email = StringField(validators=[InputRequired(), Length(min=4,max=40)], render_kw={"placeholder": "Email"})
-    poll_title = StringField(validators=[InputRequired(), Length(min=4,max=40)], render_kw={"placeholder": "Poll Title"})
-    location = StringField(validators=[InputRequired(), Length(min=4,max=40)], render_kw={"placeholder": "Location"})
-    #timezone =  
-    #deadline = 
     notes = StringField(validators=[InputRequired(), Length(min=4,max=10000)], render_kw={"placeholder": "Notes"})
 
 @app.route('/', methods = ['GET'])
 def home():
     return render_template('home.html')
+'''
+def voter():
+    voter = Todo.query.filter_by(id=1).first() #TODO change filter needs to be by admin
+    return render_template('voter.html', form=VoterForm(), poll_title="Zoom Meeting", location=voter.location, timezone=voter.timezone) #get location, timezone, deadline from db
+'''
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
@@ -188,11 +189,6 @@ def publish(id):
         return redirect('/admin')
     except:
         return 'Issue publishing poll'
-
-@app.route('/voter', methods=['GET','POST'])
-def voter():
-    form = VoterForm()
-    return render_template('voter.html')
 
 
 
