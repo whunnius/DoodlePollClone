@@ -3,7 +3,7 @@ import re
 from flask import Flask, render_template, url_for, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, timezone
-from flask_login import UserMixin
+from flask_login import UserMixin, login_manager, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 from flask_wtf.form import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
@@ -17,13 +17,15 @@ db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 app.config['SECRET_KEY'] = 'secretkey'
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "login"
+
+@login_manager.user_loader
+def load_user(userID):
+    return User.query.get(int(userID))
 
 
-
-events = [{
-    'todo' : 'Hi',
-    'date' : '2021-11-23',
-}]
 
 
 class Todo(db.Model):
@@ -43,6 +45,8 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), nullable=False, unique=True)
     email = db.Column(db.String(40), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
+    def get_id(self):
+        return (self.userID)
     #password is set to 80 chars here because when registor form hashes the password we dont know how long the length of string will be. actual length is 20 chars
 
 class RegistorForm(FlaskForm):
@@ -65,13 +69,24 @@ class LoginForm(FlaskForm):
 
     submit = SubmitField("Login")
 
-@app.route('/')
+@app.route('/', methods = ['GET'])
 def home():
     return render_template('home.html')
 
 @app.route('/login', methods = ['GET', 'POST'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        if user:
+            if bcrypt.check_password_hash(user.password, form.password.data):
+                login_user(user)
+                if form.username.data == "whunnius":
+                    return redirect(url_for('admin'))
+                else:
+                    #Temporary
+                    return redirect(url_for('admin'))
+
     return render_template('login.html', form=form)
 
 @app.route('/register',methods = ['GET', 'POST'])
@@ -83,52 +98,58 @@ def register():
 
         hashed_password = bcrypt.generate_password_hash(form.password.data)
         new_user = User(username = form.username.data,email = form.email.data, password =hashed_password)
-        print(form.username.data)
-        print(form.email.data)
-        print(hashed_password)
         try:
             db.session.add(new_user)
             db.session.commit()
-            print("gigigig")
             return redirect(url_for('login'))
         except:
             return 'There was an issue adding user'
     return render_template('register.html', form=form)
 
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/admin', methods=['GET', 'POST'])
+@login_required
 def admin():
+    print("im here")
     if request.method == 'POST':
+        
         task_content = request.form['content']
         task_timezone = request.form['timezone']
         task_location = request.form['location']
         task_description = request.form['description']
+        print(task_content)
+        print(task_timezone)
+
         if(task_content != "" and task_timezone!= "" ):
             new_task = Todo(content=task_content,timezone=task_timezone,location=task_location,description=task_description)
-            
+            print("hi")
             try:
+                print("hi")
                 db.session.add(new_task)
                 db.session.commit()
-                return redirect('/')
+                print("hi") 
+                return redirect('/admin')
             except:
                 return 'There was an issue adding your Poll'
         else:
-            return redirect('/')
+            
+            return redirect('/admin')
             #enter invalid title
     else:
+        print("here now")
         tasks = Todo.query.order_by(Todo.date_created).all()
-    
-        return render_template('admin.html',tasks=tasks, events=events)
+        print(tasks)
+        return render_template('admin.html',tasks=tasks)
 
 
-@app.route('/delete/<int:id>')
+@app.route('/delete/<int:id>', methods=['GET', 'POST'])
 def delete(id):
     task_to_delete = Todo.query.get_or_404(id)
 
     try:
         db.session.delete(task_to_delete)
         db.session.commit()
-        return redirect('/')
+        return redirect('/admin')
     except:
         return 'There was a problem deleting specific schedule'
     
@@ -140,13 +161,13 @@ def update(id):
         print(task.content)
         try:
             db.session.commit()
-            return redirect('/')
+            return redirect('/admin')
         except:
             return 'Issue updating Schedule'
     else:
         return render_template('update.html',task=task)
 
-@app.route('/publish/<int:id>')
+@app.route('/publish/<int:id>', methods=['GET', 'POST'])
 def publish(id):
     task = Todo.query.get_or_404(id)
     if(task.published==False):
@@ -155,7 +176,7 @@ def publish(id):
         task.published =False
     try:
         db.session.commit()
-        return redirect('/')
+        return redirect('/admin')
     except:
         return 'Issue publishing poll'
 
@@ -163,4 +184,5 @@ def publish(id):
 
 if __name__ == "__main__":
     db.create_all()
+
     app.run(debug=True)

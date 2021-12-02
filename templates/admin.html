@@ -1,7 +1,7 @@
 {% extends 'base.html'%}
 
 {% block head %}
-<title>Create Poll</title>
+<title>Admin: Create Poll</title>
 <link rel = "stylesheet" href= "https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.css">
 <script src = "https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.min.js"></script>
 {% endblock %}
@@ -48,7 +48,7 @@
     </table>
     {% endif %}
     <div class="form">
-        <form action="/" method="POST">
+        <form action="{{url_for('admin')}}" method="POST">
             <label style="text-align: center" for="Poll Title">Poll Title:</label>
             <input type="text" name="content" id="content">
             <br>
