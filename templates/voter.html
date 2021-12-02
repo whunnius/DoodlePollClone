@@ -1,0 +1,52 @@
+{% extends 'base.html'%}
+
+{% block head %}
+<title>Vote on Poll</title>
+{% endblock %}
+
+
+{% block body %}
+<h1><u><center>Vote on Poll</center></u></h1>
+<form method="POST" action ="">
+    <center> 
+    {{ form.hidden_tag() }}
+    <di class="voterTextboxName"> 
+        <tr>
+            <td>Name: </td>
+            {{ form.name }}
+        </tr>
+    </div>
+    
+    <div>
+        <tr>
+            <td>Email: </td>
+            {{ form.email}}
+        </tr>
+    </div>
+
+    <div class="tab">
+        <tr>
+            <td>Poll Title: </td>
+            {{ form.poll_title}}
+
+            <td>Location:</td>
+            {{ form.location }}
+        </tr>
+    </div>
+    </center>
+    <div class="formfield">
+        <tr>
+            <label for="Notes">Notes: </label>
+            <textarea id="Notes" rows="10" cols="30">Enter your notes here</textarea>
+        </tr>
+    </div>
+
+    <div>
+        <tr>
+            
+        </tr>
+
+    </div>
+</form>
+
+{% endblock %}

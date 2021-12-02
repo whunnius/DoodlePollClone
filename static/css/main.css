@@ -61,3 +61,24 @@ a.button2 {
     text-decoration: none;
     color: rgb(204, 92, 189);
 }
+
+.formfield * {
+    vertical-align: top;
+  }
+
+.tab { 
+      margin-left: 50px;
+      margin-bottom: 50px ; 
+}
+
+.voterTextboxName{
+    margin-left: 2px;
+    margin-bottom: 100px;   
+}
+
+.voterTextboxEmail{
+    display: block;
+    float: left;    
+    width: 100px;    
+    height: 100px;    
+}
