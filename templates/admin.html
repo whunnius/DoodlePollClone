@@ -1,3 +1,5 @@
+
+   
 {% extends 'base.html'%}
 
 {% block head %}
@@ -21,6 +23,7 @@
             <th>Description</th>
             <th>Location</th>
             <th>Time Zone</th>
+            <th>Votes Allowed</th>
             <th>Actions</th>
         </tr>
         {% for task in tasks%}
@@ -30,6 +33,7 @@
                 <td>{{ task.description }}</td>
                 <td>{{ task.location }}</td>
                 <td>{{ task.timezone }}</td>
+                <td>{{ task.max_votes }}</td>
                 <td>
                     <a href="/delete/{{task.id}}">Delete</a>
                     <br>
@@ -146,6 +150,21 @@
                 <option value="Pacific/Tongatapu">(GMT+13:00) Nuku'alofa</option>
              </select>
              <br>
+             <label style="text-align: center" for="Maximum Votes Allowed">Maximum Votes Allowed:</label>
+             <input type="number" name="max_votes" id="max_votes">
+             <br>
+
+             
+
+            <label style="text-align: right" for="eventTitle">Event Title:</label>
+            <input type="text" name="eventTitle" id="eventTitle">
+            <br>
+            <label style="text-align: right" for="eventDate">Event Date:</label>
+            <input type="date" name="eventDate" id="eventDate">
+              
+                <button> <a href="/my-link/">Click me</a></button>
+              
+              
              <br>
              <div id="calendar"></div>
              <script>
@@ -158,6 +177,7 @@
                      eventLimit: true,
                      headerToolbar:{
                          left: 'prev,next today',
+                         center: 'title',
                          right: 'dayGridMonth,timeGridWeek,timeGridDay'
                      },
                      events:[
