@@ -25,6 +25,10 @@ login_manager.login_view = "login"
 def load_user(userID):
     return User.query.get(int(userID))
 
+events = [{
+    'todo' : 'Hi',
+    'date' : '2021-11-23',
+}]
 
 
 
@@ -36,6 +40,8 @@ class Todo(db.Model):
     timezone = db.Column(db.String(200), nullable=False)
     location = db.Column(db.String(200), default="")
     description = db.Column(db.String(1000), default="")
+    eventTitle = db.Column(db.String(200), default="")
+    eventDate = db.Column(db.String(200), default="")
     
     def __repr__(self):
         return '<Task %r>' % self.id
@@ -122,16 +128,17 @@ def register():
 def admin():
     print("im here")
     if request.method == 'POST':
-        
+        task_eventTitle = request.form['eventTitle']
+        task_eventDate = request.form['eventDate']
         task_content = request.form['content']
         task_timezone = request.form['timezone']
         task_location = request.form['location']
         task_description = request.form['description']
         print(task_content)
         print(task_timezone)
-
+        print(task_eventDate)
         if(task_content != "" and task_timezone!= "" ):
-            new_task = Todo(content=task_content,timezone=task_timezone,location=task_location,description=task_description)
+            new_task = Todo(content=task_content,timezone=task_timezone,location=task_location,description=task_description,eventTitle=task_eventTitle)
             print("hi")
             try:
                 print("hi")
@@ -149,8 +156,11 @@ def admin():
         print("here now")
         tasks = Todo.query.order_by(Todo.date_created).all()
         print(tasks)
-        return render_template('admin.html',tasks=tasks)
+        return render_template('admin.html',tasks=tasks, events=events)
 
+@app.route('/my-link/')
+def my_link():
+  request.form.
 
 @app.route('/delete/<int:id>', methods=['GET', 'POST'])
 def delete(id):

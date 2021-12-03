@@ -147,6 +147,19 @@
              </select>
              <br>
              <br>
+
+             
+
+            <label style="text-align: right" for="eventTitle">Event Title:</label>
+            <input type="text" name="eventTitle" id="eventTitle">
+            <br>
+            <label style="text-align: right" for="eventDate">Event Date:</label>
+            <input type="date" name="eventDate" id="eventDate">
+              
+                <button> <a href="/my-link/">Click me</a></button>
+              
+              
+             <br>
              <div id="calendar"></div>
              <script>
                  let calendarEl = document.getElementById('calendar');
@@ -158,6 +171,7 @@
                      eventLimit: true,
                      headerToolbar:{
                          left: 'prev,next today',
+                         center: 'title',
                          right: 'dayGridMonth,timeGridWeek,timeGridDay'
                      },
                      events:[
