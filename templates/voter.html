@@ -26,7 +26,7 @@
 
     <div class="tab">
         <tr>
-            <td><b>Poll Title: </b> {{ poll_title }}</td>
+            <td><b>Poll Title: </b> {{ pollTitle }}</td>
             <td><b>Location: </b>: {{ location }}</td>
         </tr>
     </div>
@@ -38,7 +38,24 @@
         </tr>
     </div>
     </center>
-
+    <table id="myTable" style="border:1px solid black;margin-left:auto;margin-right:auto;">
+        <tr class="header">
+            <th>Select</th>
+            <th>Day</th>
+            <th>Month</th>
+            <th>Day</th>
+            <th>Time Slot</th>
+        </tr>
+        {% for times in timeSlot %}
+            <tr>
+                <td> <input type="checkbox" name="checkbox" id=""> </td>
+                <td> {{ dayType }} </td>
+                <td> {{ month }} </td>
+                <td> {{ day }} </td>
+                <td> {{ times }} </td>
+            </tr>      
+          {% endfor %}
+      </table>
 
     <div class="formfield">
         <tr>
@@ -54,5 +71,7 @@
 
     </div>
 </form>
-
+<script>
+    
+</script>
 {% endblock %}
